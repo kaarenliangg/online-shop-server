@@ -1,0 +1,19 @@
+---
+development:
+  cloud_name: dbcduogrd
+  api_key: '928912961313961'
+  api_secret: RO_ZHbrqe699pb5FzqtBG0b-SyY
+  enhance_image_tag: true
+  static_file_support: false
+production:
+  cloud_name: dbcduogrd
+  api_key: '928912961313961'
+  api_secret: RO_ZHbrqe699pb5FzqtBG0b-SyY
+  enhance_image_tag: true
+  static_file_support: true
+test:
+  cloud_name: dbcduogrd
+  api_key: '928912961313961'
+  api_secret: RO_ZHbrqe699pb5FzqtBG0b-SyY
+  enhance_image_tag: true
+  static_file_support: false

@@ -44,6 +44,7 @@ GEM
       tzinfo (~> 1.1)
     arel (9.0.0)
     bcrypt (3.1.18)
+    bcrypt (3.1.18-java)
     bindex (0.8.1)
     bootsnap (1.16.0)
       msgpack (~> 1.2)
@@ -59,9 +60,13 @@ GEM
     concurrent-ruby (1.2.2)
     crass (1.0.6)
     date (3.3.3)
+    date (3.3.3-java)
     erubi (1.12.0)
     execjs (2.8.1)
     ffi (1.15.5)
+    ffi (1.15.5-java)
+    ffi (1.15.5-x64-mingw32)
+    ffi (1.15.5-x86-mingw32)
     globalid (1.1.0)
       activesupport (>= 5.0)
     i18n (1.14.1)
@@ -88,6 +93,7 @@ GEM
     mini_portile2 (2.8.2)
     minitest (5.18.0)
     msgpack (1.7.1)
+    msgpack (1.7.1-java)
     net-imap (0.3.4)
       date
       net-protocol
@@ -98,12 +104,23 @@ GEM
     net-smtp (0.3.3)
       net-protocol
     nio4r (2.5.9)
+    nio4r (2.5.9-java)
     nokogiri (1.15.2)
       mini_portile2 (~> 2.8.2)
       racc (~> 1.4)
+    nokogiri (1.15.2-java)
+      racc (~> 1.4)
+    nokogiri (1.15.2-x64-mingw32)
+      racc (~> 1.4)
+    nokogiri (1.15.2-x86-mingw32)
+      racc (~> 1.4)
     pg (1.5.3)
+    pg (1.5.3-x64-mingw32)
+    pg (1.5.3-x86-mingw32)
     puma (3.12.6)
+    puma (3.12.6-java)
     racc (1.6.2)
+    racc (1.6.2-java)
     rack (2.2.7)
     rack-cors (2.0.1)
       rack (>= 2.0.0)
@@ -163,6 +180,7 @@ GEM
       sprockets (>= 3.0.0)
     thor (1.2.2)
     thread_safe (0.3.6)
+    thread_safe (0.3.6-java)
     tilt (2.1.0)
     timeout (0.3.2)
     turbolinks (5.2.1)
@@ -170,6 +188,8 @@ GEM
     turbolinks-source (5.2.0)
     tzinfo (1.2.11)
       thread_safe (~> 0.1)
+    tzinfo-data (1.2023.3)
+      tzinfo (>= 1.0.0)
     uglifier (4.2.0)
       execjs (>= 0.3.0, < 3)
     web-console (3.7.0)
@@ -179,10 +199,16 @@ GEM
       railties (>= 5.0)
     websocket-driver (0.7.5)
       websocket-extensions (>= 0.1.0)
+    websocket-driver (0.7.5-java)
+      websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.5)
 
 PLATFORMS
+  java
   ruby
+  x64-mingw32
+  x86-mingw32
+  x86-mswin32
 
 DEPENDENCIES
   bcrypt (~> 3.1.7)
@@ -208,4 +234,4 @@ RUBY VERSION
    ruby 2.7.8p225
 
 BUNDLED WITH
-   2.1.4
+   2.4.13
