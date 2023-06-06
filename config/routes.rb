@@ -4,4 +4,5 @@ Rails.application.routes.draw do
 	resources :products, defaults: { format: :json }
 
 	post '/login' => 'users#login'
+	get '/profile' => 'users#profile'
 end
