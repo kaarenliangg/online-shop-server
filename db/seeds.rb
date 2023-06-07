@@ -451,3 +451,26 @@ p34 = Product.create(
 
 
 puts "#{Product.count} products created."
+
+o1 = Order.create(
+  product: p1,
+  user: u1,
+  quantity: 2,
+  orderstatus: 'Pending'
+)
+
+o2 = Order.create(
+  product: p1,
+  user: u1,
+  quantity: 1,
+  orderstatus: 'Shipped'
+)
+
+o3 = Order.create(
+  product: p1,
+  user: u1,
+  quantity: 3,
+  orderstatus: 'Delivered'
+)
+
+puts "#{Order.count} orders created."
