@@ -23,7 +23,7 @@ class ProductsController < ApplicationController
         product.update_attributes product_params
         product.save
 
-        render json: product, :status => :ok
+        render json: @product, :status => :ok
     end
 
     def create
