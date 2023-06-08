@@ -452,25 +452,42 @@ p34 = Product.create(
 
 puts "#{Product.count} products created."
 
+# o1 = Order.create(
+#   product: p1,
+#   user: u1,
+#   quantity: 2,
+#   orderstatus: 'Shipped'
+# )
+
+# o2 = Order.create(
+#   product: p1,
+#   user: u1,
+#   quantity: 1,
+#   orderstatus: 'Shipped'
+# )
+
+# o3 = Order.create(
+#   product: p1,
+#   user: u1,
+#   quantity: 3,
+#   orderstatus: 'Delivered'
+# )
+
+Order.destroy_all
+
 o1 = Order.create(
-  product: p1,
-  user: u1,
-  quantity: 2,
-  orderstatus: 'Pending'
-)
-
-o2 = Order.create(
-  product: p1,
-  user: u1,
-  quantity: 1,
-  orderstatus: 'Shipped'
-)
-
-o3 = Order.create(
-  product: p1,
-  user: u1,
-  quantity: 3,
   orderstatus: 'Delivered'
 )
 
+o2 = Order.create(
+  orderstatus: 'Delivered'
+)
+
+u1.orders << o1
+u2.orders << o2
+
 puts "#{Order.count} orders created."
+
+puts "orders and products"
+o1.products << p1 << p2
+o2.products << p3 << p4 << p5

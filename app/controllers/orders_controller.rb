@@ -1,8 +1,10 @@
 class OrdersController < ApplicationController
+    skip_before_action :is_authorized
+
     def index
         @orders = Order.all
 
-        render json: @orders
+        render json: @orders, include: [:products]
     end
     
     def new
@@ -34,19 +36,18 @@ class OrdersController < ApplicationController
     def show
         @order = Order.find params[:id]
 
-        render json: @order
+        render json: @order, include: [:products]
     end
     
     def destroy
-    order = Order.find params[:id]
-    order.destroy
-    
+        order = Order.find params[:id]
+        order.destroy
     end
     
     private
     
     def order_params
-    params.require(:order).permit(:product_id, :user_id, :quantity, :orderstatus)
+        params.require(:order).permit(:product_id, :user_id, :orderstatus)
     end
 
 end
