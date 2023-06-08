@@ -29,6 +29,8 @@ gem "jwt", "~> 2.7"
 
 gem "rack-cors", "~> 2.0"
 
+gem 'stripe'
+
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 

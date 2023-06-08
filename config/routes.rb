@@ -9,6 +9,8 @@ Rails.application.routes.draw do
 	resources :products, defaults: { format: :json }, shallow: true do
 		resources :orders
 	end
+
+	resources :checkouts, :only => [:create]
 	
 	post '/login' => 'users#login'
 	get '/profile' => 'users#profile'
