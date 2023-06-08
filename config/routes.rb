@@ -3,6 +3,7 @@ Rails.application.routes.draw do
 	resources :users, :only => [:index, :create]
 	resources :products, defaults: { format: :json }
 	resources :orders, defaults: { format: :json }
+	resources :checkouts, :only => [:create]
 	
 	post '/login' => 'users#login'
 	get '/profile' => 'users#profile'
