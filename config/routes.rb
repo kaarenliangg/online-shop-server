@@ -1,12 +1,15 @@
 Rails.application.routes.draw do
 	# For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
-	resources :users, :only => [:index, :create]
-
-	resources :orders do
-		resources :products, shallow: true
+	resources :users, :only => [:index, :create, :show] do
+		resources :products
+		resources :orders
 	end
 
-	resources :products, defaults: { format: :json }, shallow: true do
+	resources :orders do
+		resources :products
+	end
+
+	resources :products, defaults: { format: :json } do
 		resources :orders
 	end
 
