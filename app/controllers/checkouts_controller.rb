@@ -1,8 +1,6 @@
 class CheckoutsController < ApplicationController
     skip_before_action :is_authorized, :only => [:create]
     
-    # Stripe.api_key = 'sk_test_51NGEqeCGX7XPMDHf8F2hkgKWMTldXx5PIUVuMm35dB30PQ1HnEWaKxVAZ0dttDRZKV0oxrK9CrIWu7atJe6Oa0yp00Vagwoyqp'
-
     def create
         dev_url = "http://localhost:8000"
         prod_url = ""
@@ -53,7 +51,7 @@ class CheckoutsController < ApplicationController
           ],
             line_items: [{
               # Provide the exact Price ID (e.g. pr_1234) of the product you want to sell
-              price: 'price_1NGXOkHK0jF5AwAIDHPHUyTw',
+              price: 'price_1NGfozHK0jF5AwAI1WmlZOIz',
               quantity: 1,
             }],
             mode: 'payment',
