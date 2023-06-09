@@ -16,10 +16,10 @@ ActiveRecord::Schema.define(version: 2023_06_09_003510) do
   enable_extension "plpgsql"
 
   create_table "orders", force: :cascade do |t|
+    t.integer "user_id"
     t.text "orderstatus"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "user_id"
   end
 
   create_table "orders_products", id: false, force: :cascade do |t|
