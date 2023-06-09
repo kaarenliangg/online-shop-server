@@ -17,4 +17,7 @@ Rails.application.routes.draw do
 	
 	post '/login' => 'users#login'
 	get '/profile' => 'users#profile'
+	post '/password/forgot' => 'passwords#forgot'
+	post 'password/reset' => 'passwords#reset'
+	
 end
