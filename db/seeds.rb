@@ -480,11 +480,11 @@ o1 = Order.create(
 )
 
 o2 = Order.create(
-  orderstatus: 'Delivered'
+  orderstatus: 'active'
 )
 
 u1.orders << o1
-u2.orders << o2
+u1.orders << o2
 
 puts "#{Order.count} orders created."
 
@@ -492,4 +492,3 @@ puts "#{Order.count} orders created."
 puts "orders and products"
 o1.products << p1 << p2
 o2.products << p3 << p4 << p5
-

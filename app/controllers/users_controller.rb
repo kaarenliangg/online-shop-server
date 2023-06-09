@@ -1,15 +1,18 @@
 class UsersController < ApplicationController
-    skip_before_action :is_authorized, only: [:create, :login]
-    
-    
+    skip_before_action :is_authorized, only: [:create, :login, :show]
+
     def index
         @users = User.all
-        
-        render json: @users
+        render json: @users, include: {orders: {include: {products: {}}}}
+    end
+
+    def show
+        @user = User.find params[:id]
+        render json: @user, include: {orders: {include: {products: {}}}}
     end
     
     def profile
-        render json: @user
+        render json: @user, include: {orders: {include: {products: {}}}}
     end
     
     def create
