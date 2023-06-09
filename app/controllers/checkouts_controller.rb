@@ -1,14 +1,14 @@
 class CheckoutsController < ApplicationController
     skip_before_action :is_authorized, :only => [:create]
     
-    Stripe.api_key = 'sk_test_51NGEqeCGX7XPMDHf8F2hkgKWMTldXx5PIUVuMm35dB30PQ1HnEWaKxVAZ0dttDRZKV0oxrK9CrIWu7atJe6Oa0yp00Vagwoyqp'
+    # Stripe.api_key = 'sk_test_51NGEqeCGX7XPMDHf8F2hkgKWMTldXx5PIUVuMm35dB30PQ1HnEWaKxVAZ0dttDRZKV0oxrK9CrIWu7atJe6Oa0yp00Vagwoyqp'
 
     def create
         dev_url = "http://localhost:8000"
         prod_url = ""
 
         session = Stripe::Checkout::Session.create({
-          shipping_address_collection: {allowed_countries: ['AUS']},
+          shipping_address_collection: {allowed_countries: ['AU']},
           shipping_options: [
             {
               shipping_rate_data: {
