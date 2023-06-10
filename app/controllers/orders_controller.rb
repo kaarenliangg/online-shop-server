@@ -22,15 +22,20 @@ class OrdersController < ApplicationController
     
     def edit
         @order = Order.find params[:id]
-
+        if params[:product_id].present?
+            @product = Product.find(params[:product_id]) 
+            @order.products << @product
+        end
         render json: @order, :status => :ok
     end
     
     def update
-        order = Order.find params[:id]
-        order.update order_params
+        @order = Order.find params[:id]
+        if params[:product_id].present?
+            @product = Product.find(params[:product_id]) 
+            @order.products << @product
+        end
         render json: @order, :status => :ok
-    
     end
     
     def show
@@ -40,14 +45,22 @@ class OrdersController < ApplicationController
     end
     
     def destroy
-        order = Order.find params[:id]
-        order.destroy
+        @order = Order.find params[:id]
+        # this currently deletes ALL matching items, as it's deleting by ID
+        if params[:product_id].present?
+            @product = Product.find(params[:product_id])
+            @order.products.delete(@product)
+
+        end
+        render json: @order, :status => :ok
     end
     
+    # 
+
     private
     
     def order_params
-        params.require(:order).permit(:product_id, :user_id, :orderstatus)
+        params.require(:order).permit(:user_id, :order_id, :orderstatus, product_ids: [])
     end
 
 end

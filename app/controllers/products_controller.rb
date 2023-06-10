@@ -14,14 +14,14 @@ class ProductsController < ApplicationController
     end
 
     def update
-        product = Product.find params[:id]
+        @product = Product.find params[:id]
         if params[:file].present?
-        req = Cloudinary::Uploader.upload(params[:file])
-        product.image = req["public_id"]
-        
+            req = Cloudinary::Uploader.upload(params[:file])
+            product.image = req["public_id"]
         end
-        product.update_attributes product_params
-        product.save
+
+        @product.update_attributes product_params
+        @product.save
 
         render json: @product, :status => :ok
     end
@@ -29,16 +29,16 @@ class ProductsController < ApplicationController
     def create
         product = Product.create product_params
         if params[:file].present?
-        req = Cloudinary::Uploader.upload(params[:file])
-        product.image = req["public_id"]
-        product.save
+            req = Cloudinary::Uploader.upload(params[:file])
+            product.image = req["public_id"]
+            product.save
         end
 
         render json: @product, :status => :created
     end
 
     def edit
-        @product = Product.find params[:id]
+        @product = Product.find params[:id]       
 
         render json: @product, :status => :ok
     end
