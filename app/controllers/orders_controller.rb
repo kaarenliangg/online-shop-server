@@ -74,7 +74,7 @@ class OrdersController < ApplicationController
     def show
         @order = Order.find params[:id]
 
-        render json: @order, include: [:products]
+        render json: @order, include: {cart_items: {include: {product: {}}}}
     end
     
     def destroy
@@ -97,7 +97,7 @@ class OrdersController < ApplicationController
 
 # this feels like it should be different
     def positivetest(int)
-        if int < 1
+        if int < 2
             return false
         else
             return true
