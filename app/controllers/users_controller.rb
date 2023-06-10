@@ -3,16 +3,16 @@ class UsersController < ApplicationController
 
     def index
         @users = User.all
-        render json: @users, include: {orders: {include: {products: {}}}}
+        render json: @users, include: {orders: {include: {cart_items: {include: {product: {}}}}}}
     end
 
     def show
         @user = User.find params[:id]
-        render json: @user, include: {orders: {include: {products: {}}}}
+        render json: @user, include: {orders: {include: {cart_items: {include: {product: {}}}}}}
     end
     
     def profile
-        render json: @user, include: {orders: {include: {products: {}}}}
+        render json: @user, include: {orders: {include: {cart_items: {include: {product: {}}}}}}
     end
     
     def create

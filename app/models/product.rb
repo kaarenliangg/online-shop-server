@@ -1,4 +1,6 @@
 class Product < ApplicationRecord
-    has_and_belongs_to_many :orders
-    accepts_nested_attributes_for :orders, allow_destroy: true
+    has_many :cart_items
+    has_many :orders, :through => :cart_items
+    accepts_nested_attributes_for :orders
+    accepts_nested_attributes_for :cart_items
 end
