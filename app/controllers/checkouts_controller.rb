@@ -49,16 +49,7 @@ class CheckoutsController < ApplicationController
 					},
 				},
 			],
-            line_items: [{
-				price_data: {
-					currency: 'aud',
-					product_data: {
-						name: Product.first.product_name
-					},
-					unit_amount: (Product.first.retail_price * 100).to_i
-              	},
-				quantity: 1
-            }],
+            line_items: create_line_items(params),
             mode: 'payment',
             success_url: dev_url + '?success=true',
             cancel_url: dev_url + '?canceled=true',
@@ -66,4 +57,27 @@ class CheckoutsController < ApplicationController
         render :json => { session: session.url }
         # redirect_to session.url
     end
+
+	private
+
+	def create_line_items(params)
+		arr = []
+
+		params['_json'].each do | param |
+			item = {
+				price_data: {
+					currency: 'aud',
+					product_data: {
+						name: param['name']
+					},
+					unit_amount: (param['price'].to_f * 100).to_i
+				},
+				quantity: param['quantity'].to_i
+			}
+			arr << item
+		end
+
+		arr
+	end
+
 end
