@@ -55,7 +55,6 @@ class CheckoutsController < ApplicationController
             cancel_url: dev_url + '?canceled=true',
         })
         render :json => { session: session.url }
-        # redirect_to session.url
     end
 
 	private
@@ -68,7 +67,7 @@ class CheckoutsController < ApplicationController
 				price_data: {
 					currency: 'aud',
 					product_data: {
-						name: param['name']
+						name: param['name'],
 					},
 					unit_amount: (param['price'].to_f * 100).to_i
 				},
