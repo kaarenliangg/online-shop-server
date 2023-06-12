@@ -4,7 +4,6 @@ u2 = User.create :fullname => 'Karen', :email => 'karen@shop.co', :password => '
 
 puts "#{User.count} users created."
 
-
 Product.destroy_all
 # TEMPLATE
 # p1 = Product.create(
