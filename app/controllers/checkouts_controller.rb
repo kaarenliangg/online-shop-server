@@ -1,11 +1,14 @@
 class CheckoutsController < ApplicationController
-    skip_before_action :is_authorized, :only => [:create]
+    skip_before_action :is_authorized, :only => [:create, :complete]
     
     def create
         dev_url = "http://localhost:8000"
         prod_url = ""
 
         session = Stripe::Checkout::Session.create({
+			metadata: {
+				order_id: params['metadata']["order_id"]
+			},
 			shipping_address_collection: {allowed_countries: ['AU']},
 			shipping_options: [
             	{
@@ -58,9 +61,25 @@ class CheckoutsController < ApplicationController
     end
 
 	def complete
-		payload = request.body.read
-		puts payload.inspect
-		status 200
+		endpoint_secret = 'whsec_8916bf7946b1aa7e0b539e14643ce2a4d99d5a04ab10a9fedab1abac2c36c54e'
+		event = nil
+
+		begin
+			sig_header = request.env['HTTP_STRIPE_SIGNATURE']
+			payload = request.body.read
+			event = Stripe::Webhook.construct_event(payload, sig_header, endpoint_secret)
+		rescue JSON::ParserError => e
+			render :json => { status: 'Not ok'}, :status => :bad_request
+		rescue Stripe::SignatureVerificationError => e
+			puts 'bad request'
+		end
+
+		puts event.inspect
+
+		# TODO: Post complete logic. Confirmed payment.
+		# Update Order status
+
+		render :json => { status: 'Ok'}, :status => :ok
 	end
 
 	private
@@ -68,7 +87,7 @@ class CheckoutsController < ApplicationController
 	def create_line_items(params)
 		arr = []
 
-		params['_json'].each do | param |
+		params['lineItem'].each do | param |
 			item = {
 				price_data: {
 					currency: 'aud',
