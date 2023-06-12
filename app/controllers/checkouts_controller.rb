@@ -57,6 +57,12 @@ class CheckoutsController < ApplicationController
         render :json => { session: session.url }
     end
 
+	def complete
+		payload = request.body.read
+		puts payload.inspect
+		status 200
+	end
+
 	private
 
 	def create_line_items(params)

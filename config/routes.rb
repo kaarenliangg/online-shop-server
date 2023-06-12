@@ -23,5 +23,6 @@ Rails.application.routes.draw do
 	get '/profile' => 'users#profile'
 	post '/password/forgot' => 'passwords#forgot'
 	post 'password/reset' => 'passwords#reset'
+	post '/checkouts/complete' => 'checkouts#complete'
 	
 end
