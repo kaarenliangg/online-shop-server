@@ -36,7 +36,7 @@ class User < ApplicationRecord
 
     # handling active order
     def generate_active_order
-        orders.create(orderstatus: 'active') unless has_active_orders?
+        orders.create(orderstatus: 'active') unless has_active_order?
     end
 
 end
