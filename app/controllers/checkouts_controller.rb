@@ -1,11 +1,14 @@
 class CheckoutsController < ApplicationController
-    skip_before_action :is_authorized, :only => [:create]
+    skip_before_action :is_authorized, :only => [:create, :complete]
     
     def create
         dev_url = "http://localhost:8000"
         prod_url = ""
 
         session = Stripe::Checkout::Session.create({
+			metadata: {
+				order_id: params['metadata']["order_id"]
+			},
 			shipping_address_collection: {allowed_countries: ['AU']},
 			shipping_options: [
             	{
@@ -57,12 +60,52 @@ class CheckoutsController < ApplicationController
         render :json => { session: session.url }
     end
 
+	def complete
+		endpoint_secret = 'whsec_8916bf7946b1aa7e0b539e14643ce2a4d99d5a04ab10a9fedab1abac2c36c54e'
+		event = nil
+
+		begin
+			sig_header = request.env['HTTP_STRIPE_SIGNATURE']
+			payload = request.body.read
+			event = Stripe::Webhook.construct_event(payload, sig_header, endpoint_secret)
+		rescue JSON::ParserError => e
+			render :json => { status: 'Not ok'}, :status => :bad_request
+		rescue Stripe::SignatureVerificationError => e
+			puts 'bad request'
+		end
+
+		if event['type'] == 'checkout.session.completed'
+			session = Stripe::Checkout::Session.retrieve({
+				id: event['data']['object']['id'],
+				expand: ['line_items'],
+			})
+			
+			line_items = session.line_items
+			order_id = session.metadata.order_id
+			puts "hello, orderID: #{order_id}, Line items: #{line_items}"
+
+			update_order_status(order_id) unless order_id.nil?
+
+		end
+		# TODO: Post complete logic. Confirmed payment.
+		# Update Order status
+		# Case 1: For logged in users - the returned object will have order_id
+		# Find order by order ID.
+		# Update status to delivered or anything else thats not 'active'
+		# Send an email?
+		# Case 2 : For guest users
+		# Get order information to create order
+
+
+		render :json => { status: 'Ok'}, :status => :ok
+	end
+
 	private
 
 	def create_line_items(params)
 		arr = []
 
-		params['_json'].each do | param |
+		params['lineItem'].each do | param |
 			item = {
 				price_data: {
 					currency: 'aud',
@@ -77,6 +120,12 @@ class CheckoutsController < ApplicationController
 		end
 
 		arr
+	end
+
+	def update_order_status(order_id)
+		order = Order.find((order_id).to_i)
+		order.orderstatus = 'Payment received'
+		order.save
 	end
 
 end
