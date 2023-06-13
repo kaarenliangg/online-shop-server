@@ -52,7 +52,7 @@ class OrdersController < ApplicationController
                 @order.products << @product
             end
         end
-        render json: @cart_item, :status => :ok
+        render json: @order, :status => :ok
     end
 
     def removecart
