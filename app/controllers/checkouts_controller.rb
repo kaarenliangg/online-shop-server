@@ -87,16 +87,12 @@ class CheckoutsController < ApplicationController
 			
 			
 			if order_id == 'None'
-				# store payment intent in order
-				# store order email
-				# store shipping address
 
 				order = Order.new # create a new order
 				user = User.find_by email: 'guest@shop.co' # find guest user in DB
 				order.user_id = user.id # assign order to the guest user account
-				order.orderstatus = 'payment received'
-				order.save
-
+				update_order_data(order, session)
+			
 				products_array = [] #finding products
 				line_items["data"].each do | product |
 					db_product = Product.find_by product_name: product["description"]
@@ -105,20 +101,14 @@ class CheckoutsController < ApplicationController
 					cart_item.update_attribute(:quantity, product["quantity"].to_i)
 				end
 
-				order.save
-
+				# send email with order ID
 			else
-				update_order_status(order_id) unless order_id.nil?
-				# send email
+				order = Order.find((order_id).to_i)
+				update_order_data(order, session)
+				# send email with order ID
 			end
 
 		end
-		# TODO: Post complete logic. Confirmed payment.
-		# Update Order status
-		# Update status to delivered or anything else thats not 'active'
-		# Case 2 : For guest users
-		# Get order information to create order
-
 
 		render :json => { status: 'Ok'}, :status => :ok
 	end
@@ -144,11 +134,25 @@ class CheckoutsController < ApplicationController
 
 		arr
 	end
-
-	def update_order_status(order_id)
-		order = Order.find((order_id).to_i)
+		
+	def update_order_data (order, session)
 		order.orderstatus = 'Payment received'
+		order.email = session["customer_details"]["email"]
+		order.stripe_payment_intent = session["payment_intent"] 
+		order.shipping_cost = (session["shipping_cost"]["amount_total"].to_f / 100)
+		order.amount_total = (session["amount_total"].to_f / 100)
+		order.amount_subtotal = (session["amount_subtotal"].to_f / 100)
+		order.shipping_address = format_shipping_address(session["shipping_details"]["address"])
+		order.shipping_name = session["shipping_details"]["name"]
 		order.save
+	end
+
+	def format_shipping_address(shipping_address)
+		address = ""
+		shipping_address.each do |key, value|
+			address +=  " #{value unless value.nil?}"
+		end
+		address
 	end
 
 end
