@@ -74,10 +74,28 @@ class CheckoutsController < ApplicationController
 			puts 'bad request'
 		end
 
-		puts event.inspect
+		if event['type'] == 'checkout.session.completed'
+			session = Stripe::Checkout::Session.retrieve({
+				id: event['data']['object']['id'],
+				expand: ['line_items'],
+			})
+			
+			line_items = session.line_items
+			order_id = session.metadata.order_id
+			puts "hello, orderID: #{order_id}, Line items: #{line_items}"
 
+			update_order_status(order_id) unless order_id.nil?
+
+		end
 		# TODO: Post complete logic. Confirmed payment.
 		# Update Order status
+		# Case 1: For logged in users - the returned object will have order_id
+		# Find order by order ID.
+		# Update status to delivered or anything else thats not 'active'
+		# Send an email?
+		# Case 2 : For guest users
+		# Get order information to create order
+
 
 		render :json => { status: 'Ok'}, :status => :ok
 	end
@@ -102,6 +120,12 @@ class CheckoutsController < ApplicationController
 		end
 
 		arr
+	end
+
+	def update_order_status(order_id)
+		order = Order.find((order_id).to_i)
+		order.orderstatus = 'Payment received'
+		order.save
 	end
 
 end

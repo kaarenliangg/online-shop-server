@@ -94,7 +94,6 @@ class OrdersController < ApplicationController
         params.require(:order).permit(:user_id, :order_id, :orderstatus, product_ids: [])
     end
 
-
 # this feels like it should be different
     def positivetest(int)
         if int < 2
@@ -102,6 +101,10 @@ class OrdersController < ApplicationController
         else
             return true
         end
+    end
+
+    def generate_active_order
+
     end
 
 end
