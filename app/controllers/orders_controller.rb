@@ -91,7 +91,7 @@ class OrdersController < ApplicationController
     private
     
     def order_params
-        params.require(:order).permit(:user_id, :order_id, :orderstatus, product_ids: [])
+        params.require(:order).permit(:user_id, :order_id, :orderstatus, {product_ids: []}, :email, :shipping_address, :stripe_payment_intent, :shipping_cost, :amount_total, :amount_subtotal, :shipping_name)
     end
 
 # this feels like it should be different
