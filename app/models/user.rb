@@ -22,9 +22,9 @@ class User < ApplicationRecord
         save!
     end
 
-    # handling active order / cart logic
+    # handling active order logic
     def has_active_order?
-        orders.exists?(:status => 'active')
+        orders.exists?(orderstatus: 'active')
     end
 
     private
@@ -34,8 +34,9 @@ class User < ApplicationRecord
         SecureRandom.hex(10)
     end
 
+    # handling active order
     def generate_active_order
-        orders.create(status: 'active') unless has_active_orders?
+        orders.create(orderstatus: 'active') unless has_active_orders?
     end
 
 end
