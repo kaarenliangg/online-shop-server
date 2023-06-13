@@ -82,17 +82,40 @@ class CheckoutsController < ApplicationController
 			
 			line_items = session.line_items
 			order_id = session.metadata.order_id
+			puts "session, #{session}"
 			puts "hello, orderID: #{order_id}, Line items: #{line_items}"
+			
+			
+			if order_id == 'None'
+				# store payment intent in order
+				# store order email
+				# store shipping address
 
-			update_order_status(order_id) unless order_id.nil?
+				order = Order.new # create a new order
+				user = User.find_by email: 'guest@shop.co' # find guest user in DB
+				order.user_id = user.id # assign order to the guest user account
+				order.orderstatus = 'payment received'
+				order.save
+
+				products_array = [] #finding products
+				line_items["data"].each do | product |
+					db_product = Product.find_by product_name: product["description"]
+					order.products << db_product
+					cart_item = order.cart_items.where({product_id: db_product.id}).first
+					cart_item.update_attribute(:quantity, product["quantity"].to_i)
+				end
+
+				order.save
+
+			else
+				update_order_status(order_id) unless order_id.nil?
+				# send email
+			end
 
 		end
 		# TODO: Post complete logic. Confirmed payment.
 		# Update Order status
-		# Case 1: For logged in users - the returned object will have order_id
-		# Find order by order ID.
 		# Update status to delivered or anything else thats not 'active'
-		# Send an email?
 		# Case 2 : For guest users
 		# Get order information to create order
 
