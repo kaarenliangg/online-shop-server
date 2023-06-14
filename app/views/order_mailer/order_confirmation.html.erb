@@ -1,3 +1,12 @@
 <h1>Pocket Cart Order Confirmation</h1>
 
-
+<p>Please find some details below: </p>
+<p>Delivering to <%= @order.shipping_address %></p>
+<p>Shipping Contact: <%= @order.shipping_name %></p>
+<p>Order Email: <%= @order.email %></p>
+<p>Total incl Shipping: <%= @order.amount_total %></p>
+<p>Total excl Shipping: <%= @order.amount_subtotal %></p>
+<h3>Products Bought</h3>
+<% @order.products.each do | product | %>
+    <p><%= product.product_name %></p>
+<% end %>
