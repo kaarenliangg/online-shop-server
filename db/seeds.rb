@@ -1,6 +1,7 @@
 User.destroy_all
-u1 = User.create :fullname => 'Dom', :email => 'dom@shop.co', :password => 'chicken', :address => '60 Reservoir Street, Surry Hills NSW 2010, Australia', :admin => 'true', :contact_number => '0402053235'
-u2 = User.create :fullname => 'Karen', :email => 'karen@shop.co', :password => 'chicken', :address => '50 Reservoir Street, Surry Hills NSW 2010, Australia', :contact_number => '0411111111'
+u1 = User.create :fullname => 'guest', :email => 'guest@shop.co', :password => 'chicken', :address => 'Australia', :admin => 'false', :contact_number => '1'
+u2 = User.create :fullname => 'Dom', :email => 'dom@shop.co', :password => 'chicken', :address => '60 Reservoir Street, Surry Hills NSW 2010, Australia', :admin => 'true', :contact_number => '0402053235'
+u3 = User.create :fullname => 'Karen', :email => 'karen@shop.co', :password => 'chicken', :address => '50 Reservoir Street, Surry Hills NSW 2010, Australia', :contact_number => '0411111111'
 
 puts "#{User.count} users created."
 
@@ -22,7 +23,7 @@ p1 = Product.create(
     :product_code => "06400", 
     :product_name => "Black Hawk Lamb & Rice Dry Adult Dog Food (20kg)", 
     :product_category => "Dry Food", 
-    :animal_category => "Dog", 
+    :animal_category => "Dog",
     :product_description => "Black Hawk Lamb & Rice uses lamb as a tasty source of protein, essential for strong bones and muscles. The recipe is formulated specifically with ingredients that matter, like Australian grown oats and rice for a boost of energy to the body and brain, blueberries and cranberries as natural antioxidants to contribute to a healthy immunity, as well as natural prebiotics to support digestion. The formula also contains glucosamine and chondroitin to help support active joints, providing complete and balanced nutrition for your pet.", 
     :image => "/images/dog_dry-food.jpg", 
     :cost_price => 100.99, 
@@ -482,8 +483,8 @@ o2 = Order.create(
   orderstatus: 'active'
 )
 
-u1.orders << o1
-u1.orders << o2
+u2.orders << o1
+u2.orders << o2
 
 puts "#{Order.count} orders created."
 
