@@ -7,6 +7,6 @@
 <p>Total incl Shipping: <%= @order.amount_total %></p>
 <p>Total excl Shipping: <%= @order.amount_subtotal %></p>
 <h3>Products Bought</h3>
-<% @order.products.each do | product | %>
-    <p><%= product.product_name %></p>
+<% @order.cart_items.each do | cart_item | %>
+    <p><%= Product.find(cart_item.product_id).product_name %> x  <%= cart_item.quantity %></p>
 <% end %>
