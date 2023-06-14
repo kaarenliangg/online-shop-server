@@ -26,7 +26,7 @@ class UsersController < ApplicationController
 
         if @user && @user.authenticate(params[:user][:password])
             @token = JWT.encode({user_id: @user.id}, Rails.application.secrets.secret_key_base[0])
-            render json: {user: @user, token: @token}
+            render json: {user: @user, token: @token}, include: [:orders]
         else
             render json: { error: "Invalid Credentials"}, :status => :unauthorized
         end
