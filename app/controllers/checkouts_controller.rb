@@ -100,12 +100,12 @@ class CheckoutsController < ApplicationController
 					cart_item = order.cart_items.where({product_id: db_product.id}).first
 					cart_item.update_attribute(:quantity, product["quantity"].to_i)
 				end
+				OrderMailer.order_confirmation(order.id).deliver_now
 
-				# send email with order ID
 			else
 				order = Order.find((order_id).to_i)
 				update_order_data(order, session)
-				# send email with order ID
+				OrderMailer.order_confirmation(order.id).deliver_now
 			end
 
 		end
