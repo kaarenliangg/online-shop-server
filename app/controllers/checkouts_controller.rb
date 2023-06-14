@@ -54,7 +54,7 @@ class CheckoutsController < ApplicationController
 			],
             line_items: create_line_items(params),
             mode: 'payment',
-            success_url: dev_url + '?success=true',
+            success_url: dev_url + '/confirmation',
             cancel_url: dev_url + '?canceled=true',
         })
         render :json => { session: session.url }
