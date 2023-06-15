@@ -97,15 +97,20 @@ class CheckoutsController < ApplicationController
 				line_items["data"].each do | product |
 					db_product = Product.find_by product_name: product["description"]
 					order.products << db_product
-					cart_item = order.cart_items.where({product_id: db_product.id}).first
-					cart_item.update_attribute(:quantity, product["quantity"].to_i)
+					cart_item = order.cart_items.where({product_id: db_product.id}).first # get individual cart item
+					cart_item.update_attribute(:quantity, product["quantity"].to_i) # update quantity in cart item
+					# update the stock quantity of each product
+					db_product_quantity = db_product.quantity
+					db_product.update_attribute(:quantity, (db_product_quantity - product["quantity"].to_i))
 				end
 				OrderMailer.order_confirmation(order.id).deliver_now
 
 			else
+
 				order = Order.find((order_id).to_i)
 				update_order_data(order, session)
 				OrderMailer.order_confirmation(order.id).deliver_now
+
 			end
 
 		end
@@ -144,6 +149,12 @@ class CheckoutsController < ApplicationController
 		order.amount_subtotal = (session["amount_subtotal"].to_f / 100)
 		order.shipping_address = format_shipping_address(session["shipping_details"]["address"])
 		order.shipping_name = session["shipping_details"]["name"]
+		# deduct cart quantity from stock quantity
+		order.cart_items.each do | product |
+			cart_quantity = product.quantity
+			db_product = Product.find(product.product_id)
+			db_product.update_attribute(:quantity, (db_product.quantity - cart_quantity))
+		end
 		order.save
 	end
 
