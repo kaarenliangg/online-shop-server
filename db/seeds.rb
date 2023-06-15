@@ -483,12 +483,23 @@ o2 = Order.create(
   orderstatus: 'active'
 )
 
+o3 = Order.create(
+  orderstatus: 'Delivered'
+)
+
+o4 = Order.create(
+  orderstatus: 'active'
+)
+
 u2.orders << o1
 u2.orders << o2
+u3.orders << o3
+u3.orders << o4
 
 puts "#{Order.count} orders created."
-
 
 puts "orders and products"
 o1.products << p1 << p2
 o2.products << p3 << p4 << p5
+o3.products << p6 << p7
+o4.products << p8 << p9 << p10
