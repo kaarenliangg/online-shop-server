@@ -1,12 +1,47 @@
-<h1>Pocket Cart Order Confirmation</h1>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Confirmation</title>
+</head>
+<body>
+    <h1>Pocket Cart Order Confirmation</h1>
+    <p>Dear <%= @order.shipping_name %>,</p>
+    <p>Thank you for your order. We are pleased to confirm that your order has been received and is currently being processed.</p>
 
-<p>Please find some details below: </p>
-<p>Delivering to <%= @order.shipping_address %></p>
-<p>Shipping Contact: <%= @order.shipping_name %></p>
-<p>Order Email: <%= @order.email %></p>
-<p>Total incl Shipping: <%= @order.amount_total %></p>
-<p>Total excl Shipping: <%= @order.amount_subtotal %></p>
-<h3>Products Bought</h3>
-<% @order.cart_items.each do | cart_item | %>
-    <p><%= Product.find(cart_item.product_id).product_name %> x  <%= cart_item.quantity %></p>
-<% end %>
+    <h2>Order Details</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Product</th>
+                <th>Quantity</th>
+                <th>Price (per item)</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% @order.cart_items.each do | cart_item | %>
+                <tr>
+                    <td><%= Product.find(cart_item.product_id).product_name %></td>
+                    <td><%= cart_item.quantity %> x </td>
+                    <td>$<%= Product.find(cart_item.product_id).retail_price %></td>
+                </tr>
+            <% end %>
+        </tbody>
+    </table>
+
+    <h3>Order Subtotal: $<%= @order.amount_subtotal %></h3>
+    <% if @order.shipping_cost.present? %>
+        <h3>Shipping Cost: $<%= @order.shipping_cost %></h3>
+    <% end %>
+    <h3>Total Amount: $<%= @order.amount_total %></h3>
+
+    <p>We will notify you via email once your order has been shipped. If you have any questions or concerns, please don't hesitate to contact our customer support.</p>
+    
+    <p>Thank you again for choosing our services.</p>
+    
+    <p>Sincerely,</p>
+    <p>The Pocket Cart Team</p>
+    
+</body>
+</html>
